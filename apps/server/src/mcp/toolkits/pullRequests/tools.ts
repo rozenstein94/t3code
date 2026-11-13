@@ -617,7 +617,8 @@ const ReadPullRequestTool = Tool.make("pull_request_read", {
   .annotate(Tool.Readonly, true)
   .annotate(Tool.Destructive, false)
   .annotate(Tool.Idempotent, true)
-  .annotate(Tool.OpenWorld, true);
+  .annotate(Tool.OpenWorld, true)
+  .annotate(McpSchema.EnabledWhen, McpInvocationContext.hiddenWithoutForge);
 
 const ListPullRequestsTool = Tool.make("pull_request_list", {
   description: "List PRs in this thread's repository, recently updated first.",
@@ -637,7 +638,8 @@ const ListPullRequestsTool = Tool.make("pull_request_list", {
   .annotate(Tool.Readonly, true)
   .annotate(Tool.Destructive, false)
   .annotate(Tool.Idempotent, true)
-  .annotate(Tool.OpenWorld, true);
+  .annotate(Tool.OpenWorld, true)
+  .annotate(McpSchema.EnabledWhen, McpInvocationContext.hiddenWithoutForge);
 
 const CreatePullRequestTool = Tool.make("pull_request_create", {
   description: "Open a PR from this thread's pushed branch and link it, or return its open PR.",
@@ -656,7 +658,8 @@ const CreatePullRequestTool = Tool.make("pull_request_create", {
   .annotate(Tool.Readonly, false)
   .annotate(Tool.Destructive, false)
   .annotate(Tool.Idempotent, true)
-  .annotate(Tool.OpenWorld, true);
+  .annotate(Tool.OpenWorld, true)
+  .annotate(McpSchema.EnabledWhen, McpInvocationContext.hiddenWithoutForge);
 
 const UpdateNames = Schema.Array(TrimmedNonEmptyString).check(
   Schema.isMinLength(1),
@@ -686,7 +689,8 @@ const UpdatePullRequestTool = Tool.make("pull_request_update", {
   .annotate(Tool.Readonly, false)
   .annotate(Tool.Destructive, false)
   .annotate(Tool.Idempotent, true)
-  .annotate(Tool.OpenWorld, true);
+  .annotate(Tool.OpenWorld, true)
+  .annotate(McpSchema.EnabledWhen, McpInvocationContext.hiddenWithoutForge);
 
 const RespondToPullRequestTool = Tool.make("pull_request_respond", {
   description:
@@ -705,7 +709,8 @@ const RespondToPullRequestTool = Tool.make("pull_request_respond", {
   .annotate(Tool.Readonly, false)
   .annotate(Tool.Destructive, false)
   .annotate(Tool.Idempotent, false)
-  .annotate(Tool.OpenWorld, true);
+  .annotate(Tool.OpenWorld, true)
+  .annotate(McpSchema.EnabledWhen, McpInvocationContext.hiddenWithoutForge);
 
 export const ReviewLineComment = Schema.Struct({
   path: TrimmedNonEmptyString,
@@ -737,7 +742,8 @@ const ReviewPullRequestTool = Tool.make("pull_request_review", {
   .annotate(Tool.Readonly, false)
   .annotate(Tool.Destructive, false)
   .annotate(Tool.Idempotent, false)
-  .annotate(Tool.OpenWorld, true);
+  .annotate(Tool.OpenWorld, true)
+  .annotate(McpSchema.EnabledWhen, McpInvocationContext.hiddenWithoutForge);
 
 const MergePullRequestTool = Tool.make("pull_request_merge", {
   description: "Merge a PR. Refuses if the head moved from expectedHeadSha (summary.headSha).",
@@ -759,7 +765,8 @@ const MergePullRequestTool = Tool.make("pull_request_merge", {
   .annotate(Tool.Readonly, false)
   .annotate(Tool.Destructive, true)
   .annotate(Tool.Idempotent, false)
-  .annotate(Tool.OpenWorld, true);
+  .annotate(Tool.OpenWorld, true)
+  .annotate(McpSchema.EnabledWhen, McpInvocationContext.hiddenWithoutForge);
 
 export const PullRequestsToolkit = Toolkit.make(
   LinkPullRequestTool,
