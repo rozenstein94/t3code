@@ -457,7 +457,9 @@ with no `output`.
 ### `t3_submit_output`
 
 Stores the calling thread's result on its running turn, once it fits the schema
-that turn was sent with. A rejection names what did not fit, so the agent can
+that turn was sent with. A turn that was asked for nothing answers for the
+newest turn that was asked and has not answered yet, which is how an agent that
+ended its turn to wait gives its result after it is woken. A rejection names what did not fit, so the agent can
 correct it and call again; a later accepted submission replaces an earlier one.
 
 ### `t3_thread_wait`
@@ -466,7 +468,15 @@ Waits for a selected run to become `completed`, `failed`, `cancelled`,
 `interrupted`, or `rolled_back`. Without `runId`, it pins the latest run at call
 time; an idle thread returns immediately. A timeout reports the latest durable
 status and does not cancel work. `output` carries what the run submitted
-against its `outputSchema`.
+against its `outputSchema`; with `untilOutput`, a completed run that has not
+submitted yet is waited on until it has.
+
+### `t3_workflow`
+
+Starts, lists, reads, signals, resumes and cancels [workflow runs](../internals/workflows.md), and
+lists the questions runs ask a person. It is advertised to clients outside a thread only, such as
+the `t3 workflow` CLI, so it costs no thread any context; an agent in a thread drives workflows
+through that CLI. `start` is idempotent on `idempotencyKey` and `signal` on `signalId`.
 
 ### `t3_thread_interrupt`
 
