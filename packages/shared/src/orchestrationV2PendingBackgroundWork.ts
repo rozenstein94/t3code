@@ -326,8 +326,11 @@ function pullRequestWatchTasks(
             taskId: `${PULL_REQUEST_WATCH_TASK_ID}${link.host.toLowerCase()}/${link.repository.toLowerCase()}#${link.number}`,
             description: `Watching pull request #${link.number}`,
             kind: "monitor" as const,
-            // Once every check finished, a person moves the PR next: the watch stays on but holds nothing.
-            ...(link.watch.checksPending === false ? {} : { awaited: true as const }),
+            // Once every check finished, a person moves the PR next: the watch stays on but holds
+            // nothing, unless the agent said it acts on the PR itself.
+            ...(link.watch.checksPending === false && link.watch.untilMerged !== true
+              ? {}
+              : { awaited: true as const }),
           },
         ],
   );

@@ -471,6 +471,19 @@ describe("derivePendingBackgroundWork kinds", () => {
         pullRequests: [{ ...link(1, {}), watch: { ...watch, checksPending: true } }],
       });
       expect(backgroundWorkHoldsCompletion(running)).toBe(true);
+
+      const untilMerged = derivePendingBackgroundWork({
+        latestRun: { id: "run-1" as never, ordinal: 1, status: "completed" },
+        providerThreads: [],
+        turnItems: [],
+        pullRequests: [
+          {
+            ...link(1, { state: "open" }),
+            watch: { ...watch, passed: true, checksPending: false, untilMerged: true as const },
+          },
+        ],
+      });
+      expect(backgroundWorkHoldsCompletion(untilMerged)).toBe(true);
     });
 
     it("lists no watch while a run is active", () => {
