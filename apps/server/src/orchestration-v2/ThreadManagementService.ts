@@ -1351,6 +1351,15 @@ const make = Effect.gen(function* () {
         },
       } as const;
     }
+    if (explicitRun?.status === "queued") {
+      const dispatch = yield* orchestrator.dispatch({
+        type: "queued-run.cancel",
+        commandId: input.commandId,
+        threadId: input.threadId,
+        runId: explicitRun.id,
+      });
+      return { type: "interrupt_requested", run: explicitRun, dispatch } as const;
+    }
     const interruptibleRun = latestActiveRun(target);
     if (interruptibleRun === undefined) {
       if (input.runId === undefined) {
